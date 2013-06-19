@@ -1,3 +1,8 @@
+Newsqueak ported to run on plan9port.
+To build, ensure plan9port is installed and configured, then run mk from the squint directory.
+
+
+Original README:
 /*
  * Rob Pike, January 2000
  *
@@ -41,3 +46,4 @@ about implementation, taken from
 
 That same issue has a paper by Doug McIlroy that is necessary reading,
 but I don't have a .ps version of the paper.
+
