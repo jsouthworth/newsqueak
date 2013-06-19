@@ -13,6 +13,7 @@ eq:=prog(a:int, b:int){
 	i=i+1;
 	if(a!=b)
 		print("test ", i, " fails: ", a, "!=", b, "\n");
+	print("something",a,b);
 };
 
 {

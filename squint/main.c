@@ -4,16 +4,16 @@
 #include <bio.h>
 #include "fns.h"
 
-extern int	bconv(va_list *, Fconv*);
-extern int	econv(va_list *, Fconv*);
-extern int	iconv(va_list *, Fconv*);
-extern int	mconv(va_list *, Fconv*);
-extern int	nconv(va_list *, Fconv*);
-extern int	tconv(va_list *, Fconv*);
-extern int	Aconv(va_list *, Fconv*);
-extern int	Cconv(va_list *, Fconv*);
-extern int	Uconv(va_list *, Fconv*);
-extern int	zconv(va_list *, Fconv*);
+extern int	bconv(Fmt*);
+extern int	nconv(Fmt*);
+extern int	tconv(Fmt*);
+extern int	econv(Fmt*);
+extern int	mconv(Fmt*);
+extern int	iconv(Fmt*);
+extern int	Aconv(Fmt*);
+extern int	Cconv(Fmt*);
+extern int	Uconv(Fmt*);
+extern int	zconv(Fmt*);
 
 int		bflag;
 int		cflag;

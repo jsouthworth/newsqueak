@@ -21,21 +21,20 @@ void	xec(void);
 void	xxec(void);
 
 int
-iconv(va_list *va, Fconv *f)
+iconv(Fmt *f)
 {
 	int i;
-	char buf[16];
+	char buf[4096];
 	void *o;	/* really int (**o)(Proc*) */
 
-	o = va_arg(*va, void*);
+	o = va_arg(f->args, void*);
 	for(i=0; i<NInst; i++)
 		if((void*)insttab[i].fp==o){
-			strconv(insttab[i].name, f);
-			return sizeof o;
+			sprint(buf, insttab[i].name);
+			return fmtprint(f, buf);
 		}
 	sprint(buf, "  0x%p", o);
-	strconv(buf, f);
-	return sizeof o;
+	return fmtprint(f, buf);
 }
 
 void

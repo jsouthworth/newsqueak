@@ -1,4 +1,6 @@
+#define __NO_CTYPE 1
 #include "store.h"
+#include "inst.h"
 #include "comm.h"
 #include <u.h>
 #include <lib9.h>
@@ -567,7 +569,7 @@ idel(Proc *proc)
  */
 
 int
-isprint(Proc *proc)
+isprnt(Proc *proc)
 {
 	Store *s;
 	s=emalloc(SHSZ+proc->nprbuf+1);
@@ -597,14 +599,14 @@ pprint(Proc *proc, char *fmt, ...)
 	char buf[4096];
 	long n;
 	va_start(va, fmt);
-	n=doprint(buf, buf+sizeof buf, fmt, va)-buf;
+	n = (long)vseprint(buf, (buf + sizeof(buf)), fmt, va) - (long)buf;
 	va_end(va);
-	if(n+proc->nprbuf+1>proc->maxprbuf){
-		proc->prbuf=erealloc(proc->prbuf, proc->maxprbuf+64+n);
-		proc->maxprbuf+=64+n;
+	if ((n + proc->nprbuf + 1) > proc->maxprbuf) {
+		proc->prbuf = erealloc(proc->prbuf, proc->maxprbuf + 64 + n);
+		proc->maxprbuf += (64 + n);
 	}
-	strcpy(proc->prbuf+proc->nprbuf, buf);
-	proc->nprbuf+=n;
+	strcpy(proc->prbuf + proc->nprbuf, buf);
+	proc->nprbuf += n;
 }
 
 void

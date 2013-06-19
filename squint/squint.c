@@ -1,10 +1,10 @@
 
-#line	2	"squint.y"
+#line	2	"/usr/local/plan9/src/cmd/squint/squint.y"
 #include "store.h"
 #include "node.h"
 #include "symbol.h"
 #include <u.h>
-#include <lib9.h>
+#include <libc.h>
 #include <bio.h>
 #include "fns.h"
 
@@ -14,7 +14,7 @@
 extern Node	unittype;
 extern int	iflag;
 
-#line	17	"squint.y"
+#line	17	"/usr/local/plan9/src/cmd/squint/squint.y"
 typedef union {
 	Node	*n;
 	Symbol	*s;
@@ -81,7 +81,7 @@ YYSTYPE	yyval;
 #define	INC	57396
 #define YYEOFCODE 1
 #define YYERRCODE 2
-short	yyexca[] =
+static	const	short	yyexca[] =
 {-1, 1,
 	1, -1,
 	-2, 0,
@@ -98,8 +98,9 @@ short	yyexca[] =
 };
 #define	YYNPROD	145
 #define	YYPRIVATE 57344
+#define	yydebug	1
 #define	YYLAST	1612
-short	yyact[] =
+static	const	short	yyact[] =
 {
    8, 167, 257, 198,  38, 273,  43, 144, 266,  15,
   80,  81,  83,   6,   4, 151,   5, 183, 222, 201,
@@ -264,7 +265,7 @@ short	yyact[] =
   56,  57,   0,   0,   0,  74,   0,   0,   0,  73,
   75,  76
 };
-short	yypact[] =
+static	const	short	yypact[] =
 {
  462,-1000, 462,-1000,-1000, 106,-1000,-1000,1010,1451,
 1436,1451, 104, 100, 651,-1000,  68,  67,  65,  61,
@@ -300,14 +301,14 @@ short	yypact[] =
 -1000,-1000,1451, 154, 623,  72,-1000,-1000, -57,1451,
   71,-1000,-1000,1106,-1000
 };
-short	yypgo[] =
+static	const	short	yypgo[] =
 {
    0, 329, 328, 248, 319,  13, 315,  19,  21,   9,
  314, 312,  14,   3, 311,   0,   7,  15,  17,   6,
   18,   8,   4, 266,   2, 290, 286, 284,   5,  16,
   39, 282,   1, 279, 277, 241
 };
-short	yyr1[] =
+static	const	short	yyr1[] =
 {
    0,  26,  26,  27,  27,  31,  31,  13,  13,  29,
   29,  29,  29,   5,  10,  10,  10,  10,  23,  23,
@@ -325,7 +326,7 @@ short	yyr1[] =
   21,  21,  21,   6,   6,   8,   8,   7,   7,   7,
    7,   7,   7,  28,  28
 };
-short	yyr2[] =
+static	const	short	yyr2[] =
 {
    0,   0,   1,   1,   2,   1,   2,   1,   2,   1,
    2,   4,   2,   4,   2,   1,   3,   2,   3,   4,
@@ -343,7 +344,7 @@ short	yyr2[] =
    3,   2,   4,   2,   3,   3,   4,   2,   5,   4,
    7,   4,   7,   0,   2
 };
-short	yychk[] =
+static	const	short	yychk[] =
 {
 -1000, -26, -27, -30, -12, -29,  -5,  73, -15,  29,
   30,  31,  36,  37,  22,  -9,  18,  21,  20,  24,
@@ -379,7 +380,7 @@ short	yychk[] =
   70,  77,  68,  63,  70, -32, -12,  70, -28,  39,
  -32,  73,  77, -15,  73
 };
-short	yydef[] =
+static	const	short	yydef[] =
 {
    1,  -2,   2,   3, 105,   0, 107, 108,   0,   0,
    0,   0,   0,   0,   0, 117,   0,   0,   0,   0,
@@ -415,7 +416,7 @@ short	yydef[] =
  130, 138, 143,   0,   0,   0, 121, 132,   0,   0,
    0,  43, 140, 142,  44
 };
-short	yytok1[] =
+static	const	short	yytok1[] =
 {
    1,   0,   0,   0,   0,   0,   0,   0,   0,   0,
    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -431,7 +432,7 @@ short	yytok1[] =
    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
    0,   0,   0,  71,  45,  72,  60
 };
-short	yytok2[] =
+static	const	short	yytok2[] =
 {
    2,   3,   4,   5,   6,   7,   8,   9,  10,  11,
   12,  13,  14,  15,  16,  17,  18,  19,  20,  21,
@@ -440,11 +441,14 @@ short	yytok2[] =
   43,  47,  48,  49,  51,  55,  56,  62,  63,  64,
   65,  66,  67
 };
-long	yytok3[] =
+static	const	long	yytok3[] =
 {
    0
 };
 #define YYFLAG 		-1000
+#define YYERROR		goto yyerrlab
+#define YYACCEPT	return(0)
+#define YYABORT		return(1)
 #define	yyclearin	yychar = -1
 #define	yyerrok		yyerrflag = 0
 
@@ -452,17 +456,25 @@ long	yytok3[] =
 #include	"y.debug"
 #else
 #define	yydebug		0
+static	const	char*	yytoknames[1];		/* for debugging */
+static	const	char*	yystates[1];		/* for debugging */
 #endif
 
 /*	parser for yacc output	*/
-
+#ifdef YYARG
+#define	yynerrs		yyarg->yynerrs
+#define	yyerrflag	yyarg->yyerrflag
+#define yyval		yyarg->yyval
+#define yylval		yyarg->yylval
+#else
 int	yynerrs = 0;		/* number of errors */
 int	yyerrflag = 0;		/* error recovery flag */
+#endif
 
-char*	yytoknames[1];		/* for debugging */
-char*	yystates[1];		/* for debugging */
+extern	int	fprint(int, char*, ...);
+extern	int	sprint(char*, char*, ...);
 
-char*
+static const char*
 yytokname(int yyc)
 {
 	static char x[10];
@@ -474,7 +486,7 @@ yytokname(int yyc)
 	return x;
 }
 
-char*
+static const char*
 yystatname(int yys)
 {
 	static char x[10];
@@ -486,19 +498,27 @@ yystatname(int yys)
 	return x;
 }
 
-long
+static long
+#ifdef YYARG
+yylex1(struct Yyarg *yyarg)
+#else
 yylex1(void)
+#endif
 {
 	long yychar;
-	long *t3p;
+	const long *t3p;
 	int c;
 
+#ifdef YYARG	
+	yychar = yylex(yyarg);
+#else
 	yychar = yylex();
+#endif
+	if(yychar <= 0) {
+		c = yytok1[0];
+		goto out;
+	}
 	if(yychar < sizeof(yytok1)/sizeof(yytok1[0])) {
-		if(yychar <= 0) {
-			c = yytok1[0];
-			goto out;
-		}
 		c = yytok1[yychar];
 		goto out;
 	}
@@ -527,16 +547,21 @@ out:
 }
 
 int
+#ifdef YYARG
+yyparse(struct Yyarg *yyarg)
+#else
 yyparse(void)
+#endif
 {
 	struct
 	{
 		YYSTYPE	yyv;
 		int	yys;
 	} yys[YYMAXDEPTH], *yyp, *yypt;
-	short *yyxi;
+	const short *yyxi;
 	int yyj, yym, yystate, yyn, yyg;
 	long yychar;
+#ifndef YYARG
 	YYSTYPE save1, save2;
 	int save3, save4;
 
@@ -544,6 +569,7 @@ yyparse(void)
 	save2 = yyval;
 	save3 = yynerrs;
 	save4 = yyerrflag;
+#endif
 
 	yystate = 0;
 	yychar = -1;
@@ -561,10 +587,12 @@ ret1:
 	goto ret;
 
 ret:
+#ifndef YYARG
 	yylval = save1;
 	yyval = save2;
 	yynerrs = save3;
 	yyerrflag = save4;
+#endif
 	return yyn;
 
 yystack:
@@ -585,7 +613,11 @@ yynewstate:
 	if(yyn <= YYFLAG)
 		goto yydefault; /* simple state */
 	if(yychar < 0)
+#ifdef YYARG
+		yychar = yylex1(yyarg);
+#else
 		yychar = yylex1();
+#endif
 	yyn += yychar;
 	if(yyn < 0 || yyn >= YYLAST)
 		goto yydefault;
@@ -604,7 +636,11 @@ yydefault:
 	yyn = yydef[yystate];
 	if(yyn == -2) {
 		if(yychar < 0)
-			yychar = yylex1();
+#ifdef YYARG
+		yychar = yylex1(yyarg);
+#else
+		yychar = yylex1();
+#endif
 
 		/* look through exception table */
 		for(yyxi=yyexca;; yyxi+=2)
@@ -624,11 +660,13 @@ yydefault:
 		switch(yyerrflag) {
 		case 0:   /* brand new error */
 			yyerror("syntax error");
-			yynerrs++;
 			if(yydebug >= 1) {
 				fprint(2, "%s", yystatname(yystate));
 				fprint(2, "saw %s\n", yytokname(yychar));
 			}
+			goto yyerrlab;
+		yyerrlab:
+			yynerrs++;
 
 		case 1:
 		case 2: /* incompletely recovered error ... try again */
@@ -681,12 +719,12 @@ yydefault:
 	switch(yym) {
 		
 case 1:
-#line	55	"squint.y"
+#line	55	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 3:
-#line	62	"squint.y"
+#line	62	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-0].yyv.n;
     Compile:
@@ -724,637 +762,637 @@ case 3:
 		}
 	} break;
 case 4:
-#line	99	"squint.y"
+#line	99	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-0].yyv.n;
 		goto Compile;
 	} break;
 case 6:
-#line	107	"squint.y"
+#line	107	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NList, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 8:
-#line	114	"squint.y"
+#line	114	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NList, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 10:
-#line	121	"squint.y"
+#line	121	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NDeclsc, yypt[-0].yyv.n, Z, yypt[-1].yyv.i);
 	} break;
 case 11:
-#line	125	"squint.y"
+#line	125	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, yypt[-0].yyv.n, Z, TType);
 		yyval.n=new(NDecl, yypt[-2].yyv.n, yyval.n, Z);
 	} break;
 case 12:
-#line	130	"squint.y"
+#line	130	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NRec, yypt[-0].yyv.n, Z, Z);
 	} break;
 case 13:
-#line	136	"squint.y"
+#line	136	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NRec, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 16:
-#line	144	"squint.y"
+#line	144	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NList, yypt[-2].yyv.n, yypt[-1].yyv.n, Z);
 	} break;
 case 17:
-#line	148	"squint.y"
+#line	148	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NList, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 18:
-#line	154	"squint.y"
+#line	154	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NDecl, yypt[-2].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 19:
-#line	158	"squint.y"
+#line	158	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NDecl, yypt[-3].yyv.n, Z, yypt[-0].yyv.n);
 	} break;
 case 20:
-#line	162	"squint.y"
+#line	162	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NDecl, yypt[-4].yyv.n, yypt[-2].yyv.n, yypt[-0].yyv.n);
 	} break;
 case 21:
-#line	166	"squint.y"
+#line	166	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NDecl, yypt[-6].yyv.n, yypt[-4].yyv.n, new(NMk, dupnode(yypt[-4].yyv.n), Z, Z));
 	} break;
 case 23:
-#line	173	"squint.y"
+#line	173	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.i=yypt[-1].yyv.i|yypt[-0].yyv.i;
 	} break;
 case 24:
-#line	179	"squint.y"
+#line	179	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.i=SCconst;
 	} break;
 case 25:
-#line	183	"squint.y"
+#line	183	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.i=SCbltin;
 	} break;
 case 26:
-#line	188	"squint.y"
+#line	188	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=idnode(yypt[-0].yyv.s);
 	} break;
 case 27:
-#line	192	"squint.y"
+#line	192	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=idnode(yypt[-0].yyv.s);
 		yyval.n=new(NList, yypt[-2].yyv.n, yyval.n, Z);
 	} break;
 case 29:
-#line	200	"squint.y"
+#line	200	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, yypt[-2].yyv.n, yypt[-0].yyv.n, TArray);
 	} break;
 case 30:
-#line	204	"squint.y"
+#line	204	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, Z, yypt[-0].yyv.n, TChan);
 	} break;
 case 31:
-#line	208	"squint.y"
+#line	208	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, yypt[-1].yyv.n, Z, TStruct);
 	} break;
 case 32:
-#line	212	"squint.y"
+#line	212	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, yypt[-2].yyv.n, yypt[-0].yyv.n, TProg);
 	} break;
 case 33:
-#line	218	"squint.y"
+#line	218	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, Z, Z, TUnit);
 	} break;
 case 34:
-#line	222	"squint.y"
+#line	222	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, Z, Z, TInt);
 	} break;
 case 35:
-#line	226	"squint.y"
+#line	226	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, Z, Z, TChar);
 	} break;
 case 36:
-#line	230	"squint.y"
+#line	230	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=idnode(yypt[-0].yyv.s);
 		yyval.n=newi(NType, yyval.n, Z, TID);
 	} break;
 case 37:
-#line	236	"squint.y"
+#line	236	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 38:
-#line	240	"squint.y"
+#line	240	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-1].yyv.n;
 	} break;
 case 39:
-#line	245	"squint.y"
+#line	245	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 41:
-#line	252	"squint.y"
+#line	252	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=elemrewr(yypt[-2].yyv.n, yypt[-0].yyv.n, Z, NFormal);
 	} break;
 case 42:
-#line	256	"squint.y"
+#line	256	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=elemrewr(yypt[-2].yyv.n, yypt[-0].yyv.n, yypt[-4].yyv.n, NFormal);
 	} break;
 case 43:
-#line	262	"squint.y"
+#line	262	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=elemrewr(yypt[-3].yyv.n, yypt[-1].yyv.n, Z, NElem);
 	} break;
 case 44:
-#line	266	"squint.y"
+#line	266	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=elemrewr(yypt[-3].yyv.n, yypt[-1].yyv.n, yypt[-4].yyv.n, NElem);
 	} break;
 case 45:
-#line	272	"squint.y"
+#line	272	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newl(NNum, Z, Z, yypt[-0].yyv.l);
 	} break;
 case 46:
-#line	276	"squint.y"
+#line	276	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newst(NString, Z, Z, yypt[-0].yyv.st);
 	} break;
 case 47:
-#line	280	"squint.y"
+#line	280	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NUnit, Z, Z, Z);
 	} break;
 case 48:
-#line	284	"squint.y"
+#line	284	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-1].yyv.n, Z, PRINT);
 	} break;
 case 50:
-#line	289	"squint.y"
+#line	289	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '+');
 	} break;
 case 51:
-#line	293	"squint.y"
+#line	293	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '-');
 	} break;
 case 52:
-#line	297	"squint.y"
+#line	297	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '*');
 	} break;
 case 53:
-#line	301	"squint.y"
+#line	301	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '/');
 	} break;
 case 54:
-#line	305	"squint.y"
+#line	305	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '%');
 	} break;
 case 55:
-#line	309	"squint.y"
+#line	309	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '&');
 	} break;
 case 56:
-#line	313	"squint.y"
+#line	313	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '|');
 	} break;
 case 57:
-#line	317	"squint.y"
+#line	317	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '^');
 	} break;
 case 58:
-#line	321	"squint.y"
+#line	321	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, ANDAND);
 	} break;
 case 59:
-#line	325	"squint.y"
+#line	325	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, OROR);
 	} break;
 case 60:
-#line	329	"squint.y"
+#line	329	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, CAT);
 	} break;
 case 61:
-#line	333	"squint.y"
+#line	333	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, DEL);
 	} break;
 case 62:
-#line	337	"squint.y"
+#line	337	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, EQ);
 	} break;
 case 63:
-#line	341	"squint.y"
+#line	341	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, NE);
 	} break;
 case 64:
-#line	345	"squint.y"
+#line	345	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '<');
 	} break;
 case 65:
-#line	349	"squint.y"
+#line	349	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '>');
 	} break;
 case 66:
-#line	353	"squint.y"
+#line	353	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, LE);
 	} break;
 case 67:
-#line	357	"squint.y"
+#line	357	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, GE);
 	} break;
 case 68:
-#line	361	"squint.y"
+#line	361	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, LSH);
 	} break;
 case 69:
-#line	365	"squint.y"
+#line	365	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, RSH);
 	} break;
 case 70:
-#line	369	"squint.y"
+#line	369	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, RCV);
 	} break;
 case 71:
-#line	373	"squint.y"
+#line	373	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, LEN);
 	} break;
 case 72:
-#line	377	"squint.y"
+#line	377	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, REF);
 	} break;
 case 73:
-#line	381	"squint.y"
+#line	381	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, DEF);
 	} break;
 case 74:
-#line	385	"squint.y"
+#line	385	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, DEC);
 	} break;
 case 75:
-#line	389	"squint.y"
+#line	389	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-1].yyv.n, Z, INC);
 	} break;
 case 76:
-#line	393	"squint.y"
+#line	393	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, UMINUS);
 	} break;
 case 77:
-#line	397	"squint.y"
+#line	397	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, '!');
 	} break;
 case 78:
-#line	401	"squint.y"
+#line	401	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, '~');
 	} break;
 case 79:
-#line	405	"squint.y"
+#line	405	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-2].yyv.n, yypt[-0].yyv.n, '=');
 	} break;
 case 80:
-#line	409	"squint.y"
+#line	409	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, Z, Z, Z);
 		yyval.n=newi(NExpr, yypt[-4].yyv.n, yyval.n, '=');
 	} break;
 case 81:
-#line	414	"squint.y"
+#line	414	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, dupnode(etypeof(yypt[-1].yyv.n)), yypt[-1].yyv.n, Z);
 		yyval.n=newi(NExpr, yypt[-4].yyv.n, yyval.n, '=');
 	} break;
 case 82:
-#line	419	"squint.y"
+#line	419	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-3].yyv.n, yypt[-0].yyv.n, SND);
 	} break;
 case 83:
-#line	423	"squint.y"
+#line	423	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NUnit, Z, Z, Z);
 		yyval.n=newi(NExpr, yypt[-1].yyv.n, yyval.n, SND);
 	} break;
 case 85:
-#line	429	"squint.y"
+#line	429	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 86:
-#line	433	"squint.y"
+#line	433	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, yypt[-3].yyv.n, yypt[-1].yyv.n, Z);
 	} break;
 case 87:
-#line	437	"squint.y"
+#line	437	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NVal, yypt[-0].yyv.n, Z, Z);
 	} break;
 case 88:
-#line	443	"squint.y"
+#line	443	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=idnode(yypt[-0].yyv.s);
 	} break;
 case 89:
-#line	447	"squint.y"
+#line	447	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NArrayref, yypt[-3].yyv.n, yypt[-1].yyv.n, Z);
 	} break;
 case 90:
-#line	451	"squint.y"
+#line	451	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=idnode(yypt[-0].yyv.s);
 		yyval.n=new(NStructref, yypt[-2].yyv.n, yyval.n, Z);
 	} break;
 case 91:
-#line	458	"squint.y"
+#line	458	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NCall, yypt[-2].yyv.n, Z, Z);
 	} break;
 case 92:
-#line	462	"squint.y"
+#line	462	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NCall, yypt[-3].yyv.n, yypt[-1].yyv.n, Z);
 	} break;
 case 95:
-#line	470	"squint.y"
+#line	470	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-1].yyv.n;
 	} break;
 case 97:
-#line	477	"squint.y"
+#line	477	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, dupnode(etypeof(yypt[-1].yyv.n)), yypt[-1].yyv.n, Z);
 	} break;
 case 99:
-#line	484	"squint.y"
+#line	484	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, dupnode(etypeof(yypt[-1].yyv.n)), yypt[-1].yyv.n, Z);
 	} break;
 case 100:
-#line	488	"squint.y"
+#line	488	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NExprlist, yypt[-2].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 101:
-#line	492	"squint.y"
+#line	492	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, dupnode(etypeof(yypt[-1].yyv.n)), yypt[-1].yyv.n, Z);
 		yyval.n=new(NExprlist, yypt[-4].yyv.n, yyval.n, Z);
 	} break;
 case 102:
-#line	499	"squint.y"
+#line	499	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NType, yypt[-3].yyv.n, yypt[-1].yyv.n, TProg);
 		yyval.n=new(NProg, yyval.n, yypt[-0].yyv.n, Z);
 	} break;
 case 103:
-#line	505	"squint.y"
+#line	505	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=dupnode(&unittype);
 	} break;
 case 104:
-#line	509	"squint.y"
+#line	509	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-0].yyv.n;
 	} break;
 case 108:
-#line	520	"squint.y"
+#line	520	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 109:
-#line	524	"squint.y"
+#line	524	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-1].yyv.n;
 		if(yyval.n->t==NMk)
 			yyval.n=new(NComplete, yyval.n, Z, Z);
 	} break;
 case 110:
-#line	530	"squint.y"
+#line	530	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NBegin, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 111:
-#line	534	"squint.y"
+#line	534	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NBecome, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 112:
-#line	538	"squint.y"
+#line	538	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NMk, dupnode(etypeof(yypt[-2].yyv.n)), yypt[-2].yyv.n, Z);
 		yyval.n=new(NBecome, yyval.n, Z, Z);
 	} break;
 case 113:
-#line	543	"squint.y"
+#line	543	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NResult, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 114:
-#line	547	"squint.y"
+#line	547	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NBreak, Z, Z, Z);
 	} break;
 case 115:
-#line	551	"squint.y"
+#line	551	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NContinue, Z, Z, Z);
 	} break;
 case 116:
-#line	555	"squint.y"
+#line	555	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLoopexpr, Z, yypt[-2].yyv.n, Z);
 		yyval.n=newi(NLoop, yypt[-5].yyv.n, yyval.n, 1);
 	} break;
 case 118:
-#line	561	"squint.y"
+#line	561	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NIf, yypt[-0].yyv.n, Z, yypt[-2].yyv.n);
 	} break;
 case 119:
-#line	565	"squint.y"
+#line	565	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NIf, yypt[-2].yyv.n, yypt[-0].yyv.n, yypt[-4].yyv.n);
 	} break;
 case 120:
-#line	569	"squint.y"
+#line	569	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLoopexpr, Z, yypt[-2].yyv.n, Z);
 		yyval.n=newi(NLoop, yypt[-0].yyv.n, yyval.n, 0);
 	} break;
 case 121:
-#line	574	"squint.y"
+#line	574	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLoopexpr, yypt[-6].yyv.n, yypt[-4].yyv.n, yypt[-2].yyv.n);
 		yyval.n=newi(NLoop, yypt[-0].yyv.n, yyval.n, 0);
 	} break;
 case 122:
-#line	579	"squint.y"
+#line	579	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NSwitch, yypt[-1].yyv.n, yypt[-4].yyv.n, Z);
 	} break;
 case 123:
-#line	583	"squint.y"
+#line	583	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NSelect, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 124:
-#line	589	"squint.y"
+#line	589	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 125:
-#line	593	"squint.y"
+#line	593	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NScope, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 126:
-#line	598	"squint.y"
+#line	598	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 128:
-#line	605	"squint.y"
+#line	605	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NCase, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 129:
-#line	609	"squint.y"
+#line	609	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NCase, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 		yyval.n=new(NList, yypt[-2].yyv.n, yyval.n, Z);
 	} break;
 case 130:
-#line	616	"squint.y"
+#line	616	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLabel, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 131:
-#line	620	"squint.y"
+#line	620	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NDefault, Z, Z, Z);
 	} break;
 case 132:
-#line	624	"squint.y"
+#line	624	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLabel, yypt[-1].yyv.n, Z, Z);
 		yyval.n=new(NList, yypt[-3].yyv.n, yyval.n, Z);
 	} break;
 case 133:
-#line	631	"squint.y"
+#line	631	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NCase, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 	} break;
 case 134:
-#line	635	"squint.y"
+#line	635	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NCase, yypt[-1].yyv.n, yypt[-0].yyv.n, Z);
 		yyval.n=new(NList, yypt[-2].yyv.n, yyval.n, Z);
 	} break;
 case 135:
-#line	642	"squint.y"
+#line	642	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLabel, yypt[-1].yyv.n, Z, Z);
 	} break;
 case 136:
-#line	646	"squint.y"
+#line	646	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NLabel, yypt[-1].yyv.n, Z, Z);
 		yyval.n=new(NList, yypt[-3].yyv.n, yyval.n, Z);
 	} break;
 case 137:
-#line	653	"squint.y"
+#line	653	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, RCV);
 	} break;
 case 138:
-#line	657	"squint.y"
+#line	657	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NArraycom, yypt[-3].yyv.n, yypt[-1].yyv.n, Z);
 		yyval.n=newi(NExpr, yyval.n, Z, RCV);
 	} break;
 case 139:
-#line	662	"squint.y"
+#line	662	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-0].yyv.n, Z, RCV);
 		yyval.n=newi(NExpr, yypt[-3].yyv.n, yyval.n, '=');
 	} break;
 case 140:
-#line	667	"squint.y"
+#line	667	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NArraycom, yypt[-3].yyv.n, yypt[-1].yyv.n, Z);
 		yyval.n=newi(NExpr, yyval.n, Z, RCV);
 		yyval.n=newi(NExpr, yypt[-6].yyv.n, yyval.n, '=');
 	} break;
 case 141:
-#line	673	"squint.y"
+#line	673	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=newi(NExpr, yypt[-3].yyv.n, yypt[-0].yyv.n, SND);
 	} break;
 case 142:
-#line	677	"squint.y"
+#line	677	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=new(NArraycom, yypt[-6].yyv.n, yypt[-4].yyv.n, Z);
 		yyval.n=newi(NExpr, yyval.n, yypt[-0].yyv.n, SND);
 	} break;
 case 143:
-#line	683	"squint.y"
+#line	683	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=Z;
 	} break;
 case 144:
-#line	687	"squint.y"
+#line	687	"/usr/local/plan9/src/cmd/squint/squint.y"
 {
 		yyval.n=yypt[-1].yyv.n;
 	} break;

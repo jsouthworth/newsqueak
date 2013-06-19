@@ -228,7 +228,7 @@ gen(Node *n, int retain)
 		case PRINT:
 			gen(n->l, 1);
 			printgen(n->l);
-			emit(Isprint);
+			emit(Isprnt);
 			if(!retain)
 				emit(Iprint);
 			return;

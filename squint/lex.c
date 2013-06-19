@@ -8,6 +8,7 @@
 
 #include "fns.h"
 
+#define PREFIX "/usr/local"
 extern int initializing;
 
 enum{
@@ -381,26 +382,26 @@ printfileline(char *buf, File *f, int l, int top)
 }
 
 int
-zconv(va_list *va, Fconv *f)
+zconv(Fmt *f)
 {
 	int o;
 	char buf[4096];
 
 	SET(o);
-	if(f->chr == 'Z')
-		o = va_arg(*va, int);
+	if(f->r == 'Z')
+		o = va_arg(f->args, int);
 	if(initializing)
 		strcpy(buf, "squint: ");
 	else{
-		if(f->chr == 'z')
+		if(f->r == 'z')
 			printfileline(buf, file, file->line, 1);
 		else
 			printfileline(buf, file, o, 1);
 	}
-	strconv(buf, f);
-	if(f->chr == 'z')
+
+	if(f->r == 'z')
 		return 0;
-	return sizeof(int);
+	return fmtprint(f, buf);
 }
 
 char *

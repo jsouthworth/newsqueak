@@ -468,47 +468,46 @@ stacktrace(Proc *p)
 }
 
 int
-Aconv(va_list *va, Fconv *f)
+Aconv(Fmt *f)
 {
 	int i, n;
+	char buf[4096];
 	Store *s;
-	char buf[32];
-	s = va_arg(*va, Store*);
+	s = va_arg(f->args, Store*);
 	n=s->len;
 	if(n>4)
 		n=4;
 	sprint(buf, "[%ld]{", s->len);
-	strconv(buf, f);
 	for(i=0; i<n; i++){
 		sprint(buf, "0x%lx%c", s->data[i], ","[i==n]);
-		strconv(buf, f);
 	}
 	if(s->len!=n)
-		strconv(",...", f);
-	strconv("}", f);
-	return sizeof(long);
+		sprint(buf, ",...");
+	sprint(buf, "}");
+	return fmtprint(f, buf);
 }
 
 int
-Cconv(va_list *va, Fconv *f)
+Cconv(Fmt *f)
 {
+	char buf[4096];
 	Store *s;
 
-	s = va_arg(*va, Store*);
+	s = va_arg(f->args, Store*);
 	if(s->len>128){
-		strconv("\"very long string\"", f);
-		return sizeof(long);
+		sprint(buf, "\"very long string\"");
+		return fmtprint(f, buf);
 	}
-	strconv("\"", f);
-	strconv((char *)(s->data), f);
-	strconv("\"", f);
-	return sizeof(long);
+	sprint(buf, "\"");
+	sprint(buf, (char *)(s->data));
+	sprint(buf, "\"");
+	return fmtprint(f, buf);
 }
 
 int
-Uconv(va_list *va, Fconv *f)
+Uconv(Fmt *f)
 {
-	USED(va);
-	strconv("unit", f);
-	return sizeof(long);
+	char buf[4096];
+	sprint(buf, "unit");
+	return fmtprint(f, buf);
 }

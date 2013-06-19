@@ -2,6 +2,7 @@
 #include "comm.h"
 #include <u.h>
 #include <lib9.h>
+#include <libc.h>
 #include "space.h"
 
 #include "fns.h"
@@ -86,7 +87,7 @@ spaceinstallb(int n, char *name, long perm)
 	bp->nclient=0;
 	bp->nopen=0;
 	bp->removed=0;
-	bp->qid=(perm&CHDIR)|((n&0xFF)<<8)|(bp->seq&0xFF);
+	bp->qid=(perm&QTDIR)|((n&0xFF)<<8)|(bp->seq&0xFF);
 	bp->perm=perm;
 	memset(bp->q, 0, sizeof bp->q);
 	if(obp)

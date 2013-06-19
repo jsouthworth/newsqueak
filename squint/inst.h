@@ -62,10 +62,8 @@ typedef enum Inst{
 	Ipush,
 	Ipush0,
 	Ipush1,
-	Ipush_1,
 	Ipush10,
 	Ipush2,
-	Ipush_2,
 	Ipush3,
 	Ipush4,
 	Ipush5,
@@ -73,6 +71,8 @@ typedef enum Inst{
 	Ipush7,
 	Ipush8,
 	Ipush9,
+	Ipush_1,
+	Ipush_2,
 	Ipushary,
 	Ipusharyauto,
 	Ipusharychar,
@@ -96,7 +96,7 @@ typedef enum Inst{
 	Irsh,
 	Isnd,
 	Isndptr,
-	Isprint,
+	Isprnt,
 	Istore,
 	Istoreary,
 	Istoreauto,
@@ -109,7 +109,7 @@ typedef enum Inst{
 	Ivalnoresult,
 	Ixor,
 	NInst
- } Inst;
+}Inst;
 extern int iadd(Proc*);
 extern int iand(Proc*);
 extern int ibecome(Proc*);
@@ -173,10 +173,8 @@ extern int iprintunit(Proc*);
 extern int ipush(Proc*);
 extern int ipush0(Proc*);
 extern int ipush1(Proc*);
-extern int ipush_1(Proc*);
 extern int ipush10(Proc*);
 extern int ipush2(Proc*);
-extern int ipush_2(Proc*);
 extern int ipush3(Proc*);
 extern int ipush4(Proc*);
 extern int ipush5(Proc*);
@@ -184,6 +182,8 @@ extern int ipush6(Proc*);
 extern int ipush7(Proc*);
 extern int ipush8(Proc*);
 extern int ipush9(Proc*);
+extern int ipush_1(Proc*);
+extern int ipush_2(Proc*);
 extern int ipushary(Proc*);
 extern int ipusharyauto(Proc*);
 extern int ipusharychar(Proc*);
@@ -207,7 +207,7 @@ extern int iret(Proc*);
 extern int irsh(Proc*);
 extern int isnd(Proc*);
 extern int isndptr(Proc*);
-extern int isprint(Proc*);
+extern int isprnt(Proc*);
 extern int istore(Proc*);
 extern int istoreary(Proc*);
 extern int istoreauto(Proc*);
@@ -219,4 +219,4 @@ extern int istrcmp(Proc*);
 extern int isub(Proc*);
 extern int ivalnoresult(Proc*);
 extern int ixor(Proc*);
-extern struct Insttab{int (*fp)(Proc*); char *name;} insttab[];
+extern struct Insttab{ int (*fp)(Proc*); char *name;} insttab[];

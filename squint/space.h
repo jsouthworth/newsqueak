@@ -21,6 +21,7 @@ struct Queue{
 	int	synch;	/* flag: waiting for a syscall to come in */
 	Pend	*pend;
 };
+#define NAMELEN 256
 struct Bind{
 	Bind	*next;
 	Space	*space;

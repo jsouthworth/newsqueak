@@ -1,8 +1,8 @@
 BUILTINS=
-</$objtype/mkfile
-
-CODE=arith.c ctl.c proc.c var.c
-CO=arith.$O ctl.$O proc.$O var.$O
+<$PLAN9/src/mkhdr
+CFLAGS='-O0 -g'
+CODE=arith.c ctl.c proc.c var.c #doprint.c
+CO=arith.$O ctl.$O proc.$O var.$O #doprint.$O
 FO=squint.$O alloc.$O bltin.$O compile.$O const.$O declare.$O error.$O \
 	lex.$O main.$O node.$O symbol.$O type.$O xec.$O
 #SO=space.$O fmount.$O
@@ -14,7 +14,7 @@ $O.out: $FO $CO $SO $LIBO
 	$LD $prereq
 
 y.tab.h squint.c:	squint.y short.y.debug
-	yacc -D1 -d squint.y
+	9 yacc -D1 -d squint.y
 	mv y.tab.c squint.c
 	diff y.debug ref.y.debug
 	cp short.y.debug y.debug
@@ -54,32 +54,32 @@ slib.h:V:	sliblib.h slibio.h
 	cat $prereq > slib.h
 
 
-nodenames.h typenames.h:	node.h enumtoname
-	enumtoname Ntype < node.h > nodenames.h
-	enumtoname Ttype < node.h > typenames.h
+nodenames.h typenames.h:	node.h ./enumtoname
+	./enumtoname Ntype < node.h > nodenames.h
+	./enumtoname Ttype < node.h > typenames.h
 
 inst.h insttab.h:Q:	inst
 	echo build inst.h insttab.h
-	{echo 'typedef enum Inst{'
-		sed 's/.*/	&,/' inst;
+	(echo 'typedef enum Inst{'
+		9 sed 's/.*/	&,/' inst;
 		echo '	NInst';
 	echo '}Inst;'
-	sed 's/^I/extern int i/;s/$/\(Proc*\);/' inst
-	echo 'extern struct Insttab{ int (*fp)(Proc*); char *name;} insttab[];'} > inst.h
-	{sed 's/^I/i/;s/.*/extern int &(Proc*);/' inst;
+	9 sed 's/^I/extern int i/;s/$/\(Proc*\);/' inst
+	echo 'extern struct Insttab{ int (*fp)(Proc*); char *name;} insttab[];') > inst.h
+	(9 sed 's/^I/i/;s/.*/extern int &(Proc*);/' inst;
 	echo 'struct Insttab insttab[]={'
-	sed 's/.(.*)/	i\1, "&",/' inst
-	echo '};'} > insttab.h
+	9 sed 's/.(.*)/	i\1, "&",/' inst
+	echo '};') > insttab.h
 	
 inst:Q:	$CODE
-	cat $CODE | grep '^i.*(Proc \*proc)' | sed 's/^i/I/; s/\(.*//; s/.*/&/' | sort > ninst
+	cat $CODE | grep '^i.*(Proc \*proc)' | 9 sed 's/^i/I/; s/\(.*//; s/.*/&/' | sort > ninst
 	cmp -s inst ninst || mv ninst inst
 
 regress:	squint
 	regress
 	touch regress
 clean:
-	rm -f [$OS].out *.[$OS]
+	rm -f [$OS].out *.[$OS] 
 
 install:	$O.out
 	# regress

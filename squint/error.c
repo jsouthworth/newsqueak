@@ -1,7 +1,7 @@
-#include "nodenames.h"
-#include "typenames.h"
 #include "store.h"
 #include "node.h"
+#include "nodenames.h"
+#include "typenames.h"
 #include "symbol.h"
 #include "ydefs.h"
 #include <u.h>
@@ -20,7 +20,7 @@ lerror(Node *n, char *s, ...)
 	char buf[4096];
 
 	va_start(va, s);
-	doprint(buf, buf+sizeof buf, s, va);
+	vseprint(buf, buf+sizeof buf, s, va);
 	va_end(va);
 	fprint(2, "%Z%s\n", n->line, buf);
 	executeinhibit();
@@ -37,7 +37,7 @@ error(char *s, ...)
 	char buf[4096];
 
 	va_start(va, s);
-	doprint(buf, buf+sizeof buf, s, va);
+	vseprint(buf, buf+sizeof buf, s, va);
 	va_end(va);
 	fprint(2, "%z%s\n", buf);
 	executeinhibit();
@@ -54,7 +54,7 @@ rerror(char *s, ...)
 	char buf[4096];
 
 	va_start(va, s);
-	doprint(buf, buf+sizeof buf, s, va);
+	vseprint(buf, buf+sizeof buf, s, va);
 	va_end(va);
 	fprint(2, "%z%s\n", buf);
 	executeinhibit();
@@ -72,7 +72,7 @@ warn(char *s, ...)
 	char buf[4096];
 
 	va_start(va, s);
-	doprint(buf, buf+sizeof buf, s, va);
+	vseprint(buf, buf+sizeof buf, s, va);
 	va_end(va);
 	fprint(2, "warning:%z%s\n", buf);
 	executeinhibit();
@@ -87,7 +87,7 @@ panic(char *s, ...)
 	char buf[4096];
 
 	va_start(va, s);
-	doprint(buf, buf+sizeof buf, s, va);
+	vseprint(buf, buf+sizeof buf, s, va);
 	va_end(va);
 	fprint(2, "internal error:%z%s\n", buf);
 	abort();
@@ -101,47 +101,48 @@ rpanic(char *s, ...)
 
 	processes(0);
 	va_start(va, s);
-	doprint(buf, buf+sizeof buf, s, va);
+	vseprint(buf, buf+sizeof buf, s, va);
 	va_end(va);
 	fprint(2, "internal error:%z%s\n", buf);
 	abort();
 }
 
 int
-bconv(va_list *va, Fconv *f)
+bconv(Fmt *f)
 {
 	int o;
-	extern int printcol;
-	o = va_arg(*va, int);
-	while(printcol<o-8)
-		strconv("\t", f);
-	strconv("        "+(8-(o-printcol)), f);
-	return sizeof(int);
+	char buf[4096];
+	int printcol = 0;
+	o = va_arg(f->args, int);
+	while(printcol < o) {
+		sprint(buf, "  ");
+		printcol += 2;
+	}
+	return fmtprint(f, buf);
 }
 
 int
-nconv(va_list *va, Fconv *f)
+nconv(Fmt *f)
 {
 	Node *n;
+	char buf[4096];
 	int t;
-	char buf[32];
-	n = va_arg(*va, Node*);
+	n = va_arg(f->args, Node*);
 	t = n->t;
 	if(t<0 || sizeof(Ntypename)/sizeof(Ntypename[0])<=t){
 		sprint(buf, "mystery node(%d)", t);
-		strconv(buf, f);
 	}else
-		strconv(Ntypename[t], f);
-	return sizeof (Node *);
+		sprint(buf, Ntypename[t]);
+	return fmtprint(f, buf);
 }
 
 int
-tconv(va_list *va, Fconv *f)
+tconv(Fmt *f)
 {
 	int t;
-	char buf[1024];
 	Node *n;
-	n = va_arg(*va, Node*);
+	char buf[4096];
+	n = va_arg(f->args, Node*);
 	t = n->o.t;
 	if(t<0 || sizeof(Ttypename)/sizeof(Ttypename[0])<=t){
 		sprint(buf, "mystery type(%d)", t);
@@ -150,23 +151,21 @@ tconv(va_list *va, Fconv *f)
 	else if(t==TChan)
 		sprint(buf, "TChan of %t", n->r);
 	else
-		strcpy(buf, Ttypename[t]);
-	strconv(buf, f);
-	return sizeof (Node *);
+		sprint(buf, Ttypename[t]);
+	return fmtprint(f, buf);
 }
 
 int
-econv(va_list *va, Fconv *f)
+econv(Fmt *f)
 {
 	char buf[16], *x;
 	int t;
 	Node *n;
-	n = va_arg(*va, Node*);
+	n = va_arg(f->args, Node*);
 	t = n->o.i;
 	if(t<128 && strchr("+-*/%|&^~?!><=", t)){
 		sprint(buf, "%c", t);
-		strconv(buf, f);
-		return sizeof(int);
+		return fmtprint(f, buf);
 	}
 	switch(t){
 	case GE:
@@ -227,19 +226,19 @@ econv(va_list *va, Fconv *f)
 		x="mystery expression";
 		break;
 	}
-	strconv(x, f);
-	return sizeof(int);
+	sprint(buf, "%s",  x);
+	return fmtprint(f, buf);
 }
 
 int
-mconv(va_list *va, Fconv *f)
+mconv(Fmt *f)
 {
 	char buf[4096];
 	Node *n;
-	n = va_arg(*va, Node*);
+	n = va_arg(f->args, Node*);
 	switch(n->t){
 	case NID:
-		strcpy(buf, n->o.s->name);
+		sprint(buf, n->o.s->name);
 		break;
 	case NArrayref:
 		while(n->t==NArrayref)
@@ -274,9 +273,8 @@ mconv(va_list *va, Fconv *f)
 		sprint(buf, "unit");
 		break;
 	default:
-		strcpy(buf, "(expression)");
+		sprint(buf, "(expression)");
 		break;
 	}
-	strconv(buf, f);
-	return sizeof(Node *);
+	return fmtprint(f, buf);
 }
